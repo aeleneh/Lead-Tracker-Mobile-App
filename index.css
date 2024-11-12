@@ -2,12 +2,12 @@ body {
     margin: 0 auto;
     padding: 10px;
     font-family: Arial, Helvetica, sans-serif;
-    min-width: 3s00px;
+    max-width: 302px;
 }
 
-label{
+label {
     color: #5f9341;
-    font-weight: bold;
+    font-weight: 900;
 }
 
 input {
