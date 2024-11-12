@@ -1,7 +1,9 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"
 import { getDatabase, 
         ref,
-        push } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js"
+        push,
+        onValue,
+        remove } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js"
 
 
 const firebaseConfig = {
@@ -11,8 +13,9 @@ const firebaseConfig = {
     storageBucket: "lead-tracker-app-ff773.firebasestorage.app",
     messagingSenderId: "557867157698",
     appId: "1:557867157698:web:26966b665d96b7e29c935b",
-    databaseURL: process.env.DATABASE_URL
+    databaseURL: "https://lead-tracker-app-ff773-default-rtdb.europe-west1.firebasedatabase.app/"
 }
+
 const app = initializeApp(firebaseConfig)
 const database = getDatabase(app)
 const referenceInDB = ref(database, "leads")
@@ -37,8 +40,18 @@ function render(leads) {
     ulEl.innerHTML = listItems
 }
 
+onValue (referenceInDB, function(snapshot){
+    const snapshotDoesExist = snapshot.exists()
+    if (snapshotDoesExist) {
+        const snapshotvalues = snapshot.val()
+    const leads = Object.values(snapshotvalues)
+    render(leads)
+    }
+})
+
 deleteBtn.addEventListener("dblclick", function() {
-    
+    remove(referenceInDB)
+    ulEl.innerHTML = ""
 })
 
 inputBtn.addEventListener("click", function() {
